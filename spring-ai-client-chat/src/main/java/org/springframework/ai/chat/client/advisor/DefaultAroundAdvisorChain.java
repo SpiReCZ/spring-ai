@@ -121,7 +121,7 @@ public class DefaultAroundAdvisorChain implements CallAroundAdvisorChain, Stream
 			observation.parentObservation(contextView.getOrDefault(ObservationThreadLocalAccessor.KEY, null)).start();
 
 			// @formatter:off
-			return Flux.defer(() -> advisor.aroundStream(advisedRequest, this))
+			return Flux.defer(() -> advisor.aheadStream().concatWith(advisor.aroundStream(advisedRequest, this)))
 					.doOnError(observation::error)
 					.doFinally(s -> observation.stop())
 					.contextWrite(ctx -> ctx.put(ObservationThreadLocalAccessor.KEY, observation));

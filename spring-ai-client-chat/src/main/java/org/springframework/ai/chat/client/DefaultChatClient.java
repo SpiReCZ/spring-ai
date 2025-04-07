@@ -693,6 +693,12 @@ public class DefaultChatClient implements ChatClient {
 					return Ordered.LOWEST_PRECEDENCE;
 				}
 
+				@Override public Flux<AdvisedResponse> aheadStream() {
+    				return Flux.just(AdvisedResponse.builder()
+									.response(ChatResponse.builder().generations(Collections.emptyList()).metadata("advisor-action", "thinking").build())
+									.adviseContext(Collections.emptyMap())
+							.build());
+    			}
 				@Override
 				public Flux<AdvisedResponse> aroundStream(AdvisedRequest advisedRequest, StreamAroundAdvisorChain chain) {
 					return chatModel.stream(advisedRequest.toPrompt())

@@ -35,4 +35,11 @@ public interface StreamAroundAdvisor extends Advisor {
 	 */
 	Flux<AdvisedResponse> aroundStream(AdvisedRequest advisedRequest, StreamAroundAdvisorChain chain);
 
+	/**
+	 * Dispatch events ahead of the stream.
+	 */
+	default Flux<AdvisedResponse> aheadStream() {
+		return Flux.empty();
+	}
+
 }
